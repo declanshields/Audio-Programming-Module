@@ -7,6 +7,7 @@ This includes:
  - Blueprint Function Library
 
 This repo also includes a demonstration video of the project working, as well as images of the blueprint functions.
+Alternatively, the video can be found here: https://www.youtube.com/watch?v=k5zgudm5ObA
 
 If you wish to implement the plugin for youself, please follow the instructions below within Unreal Engine 5.2.
 
