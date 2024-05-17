@@ -18,7 +18,7 @@ Next, place the sound trigger actor wherever you desire within the world. You ma
 
 After this, add the Metasound source to your desired character blueprint as an audio component during the On Play event. You can also use this event to activate the mixer and set any parameters.
 
-Finally, timplement an On Overlap Begin event on your chosen character blueprint. When doing so, you must call the “On Overlap Begin” function within the blueprint library, this will handle all of the logic in switching the tracks depending on the overlap, the same goes for calling the “On Overlap End” after the On Overlap End event.
+Finally, implement an On Overlap Begin event on your chosen character blueprint. When doing so, you must call the “On Overlap Begin” function within the blueprint library, this will handle all of the logic in switching the tracks depending on the overlap, the same goes for calling the “On Overlap End” after the On Overlap End event.
 
 Once these functions are called and the correct parameters are passed in, the system will work.
 
