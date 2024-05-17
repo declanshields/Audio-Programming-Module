@@ -2,8 +2,8 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "DynamicAudioSystem",
-	"Description": "A plugin containing the content needed for my dynamic audio system",
+	"FriendlyName": "DynamicAudioSystemCode",
+	"Description": "",
 	"Category": "Other",
 	"CreatedBy": "Declan Shields",
 	"CreatedByURL": "",
@@ -13,5 +13,12 @@
 	"CanContainContent": true,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
-	"Installed": false
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "DynamicAudioSystemCode",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
 }
