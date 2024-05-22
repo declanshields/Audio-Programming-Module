@@ -44,6 +44,8 @@ void UAudioSystemActorComponent::ActivateMixer()
 		if (!mMixer->IsPlaying())
 			mMixer->Play();
 	}
+
+	bTrackFadedIn = false;
 }
 
 void UAudioSystemActorComponent::DeactivateMixer()
@@ -55,6 +57,7 @@ void UAudioSystemActorComponent::DeactivateMixer()
 
 		mMixer->Deactivate();
 	}
+	bTrackFadedIn = false;
 }
 
 void UAudioSystemActorComponent::FadeInTrack()
@@ -97,6 +100,11 @@ void UAudioSystemActorComponent::StartMainTrack()
 
 void UAudioSystemActorComponent::OnOwnerBeginOverlap(AActor* InOtherActor)
 {
+	if (!mMixer->IsActive())
+	{
+		ActivateMixer();
+	}
+
 	if (InOtherActor)
 	{
 		IAudioSystemInterface* AudioInterface = Cast<IAudioSystemInterface>(InOtherActor);
@@ -140,22 +148,21 @@ void UAudioSystemActorComponent::OnOwnerEndOverlap()
 				}
 			}
 		}
-
-		if (SoundZones == 1 && MajorSoundZoneTrack)
-		{
-			SwitchTracks(MajorSoundZoneTrack);
-			return;
-		}
 	}
 
-	if (SoundZones == 0)
+	if (SoundZones == 1 && MajorSoundZoneTrack)
+	{
+		SwitchTracks(MajorSoundZoneTrack);
+	}
+	else if (SoundZones == 0)
 	{
 		bTrackFadedIn = false;
 
 		if (mMixer)
 		{
 			mMixer->SetTriggerParameter(FName("Stop Tracks"));
-			mMixer->SetFloatParameter(FName("Main Track Gain"), mTrackOneGain);
+			SetTrackParameters(nullptr, nullptr);
+			DeactivateMixer();
 		}
 	}
 }
@@ -164,7 +171,13 @@ void UAudioSystemActorComponent::SwitchTracks(USoundWave* InAreaTrack)
 {
 	if (mMixer && InAreaTrack)
 	{
-		if (mMixer->IsPlaying())
+		if (!mTrackOne && !mTrackTwo)
+		{
+			bTrackFadedIn = false;
+			SetTrackParameters(InAreaTrack, mTrackTwo);
+			StartMainTrack();
+		}
+		else
 		{
 			if (bTrackFadedIn)
 			{
@@ -177,11 +190,6 @@ void UAudioSystemActorComponent::SwitchTracks(USoundWave* InAreaTrack)
 				SetTrackParameters(mTrackOne, InAreaTrack);
 				FadeInTrack();
 			}
-		}
-		else
-		{
-			SetTrackParameters(InAreaTrack, mTrackTwo);
-			StartMainTrack();
 		}
 	}
 }
